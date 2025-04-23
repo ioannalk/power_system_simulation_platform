@@ -7,7 +7,7 @@ A real-time FPGA-based power system simulation platform developed as part of a d
 3. Vivado 2020.2
 4. Vitis 2020.2
 
-#### Newer versions of the software may be compatible, but the platform has been tested and validated with the versions listed above.
+* Newer versions of the software may be compatible, but the platform has been tested and validated with the versions listed above.
 
 ### Instructions - Target: `Zynq UltraScale+ ZCU104 Evaluation Board`
 
