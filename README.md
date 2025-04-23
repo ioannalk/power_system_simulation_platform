@@ -29,6 +29,14 @@ Newer versions of the software may be compatible, but the platform has been test
 
 4. (Optional) Alternatively, run the `Fixed-Point Converter` app manually if a deeper look into the fixed-point analysis is desired. Select `fun1Ibr.m`, `fun1Ihistory.m`, `fun1Ihs.m`, `fun2Ibr.m`, `fun2Ihistory.m`, `fun2Ihs.m`, and `Vnodal.m` as entry-point functions. If the network does not include transformers, omit `fun1Ibr.m`, `fun1Ihs.m`, and `fun2Ihistory.m`. Add `empts_app.m` as the script and click `Autodefine Input Types`. In the **Settings**, select `Propose fraction lengths for specified word length` and set the default word length to 32. Set `Signed` in the **Signedness** option and analyze.
    
+![simulation.png](./images/simulink/simulation.png)
+
+3. Double-click `Algorithm 1` in the Simulink GUI. `Algorithm 1` performs simulation, network analysis, and decides the fraction lengths `f1` and `f2` for integer data representation. The fraction lengths are stored in the workspace and represent the maximum limits of each fraction length. Type `y` in the prompt window for error estimation between Simulink and the NIS method. Otherwise, press `n`.
+
+![algorithm_1.png](./images/simulink/algorithm_1.png)
+
+4. (Optional) Alternatively, run the `Fixed-Point Converter` app manually if a deeper look into the fixed-point analysis is desired. Select `fun1Ibr.m`, `fun1Ihistory.m`, `fun1Ihs.m`, `fun2Ibr.m`, `fun2Ihistory.m`, `fun2Ihs.m`, and `Vnodal.m` as entry-point functions. If the network does not include transformers, omit `fun1Ibr.m`, `fun1Ihs.m`, and `fun2Ihistory.m`. Add `empts_app.m` as the script and click `Autodefine Input Types`. In the **Settings**, select `Propose fraction lengths for specified word length` and set the default word length to 32. Set `Signed` in the **Signedness** option and analyze.
+
 ![fixed_point.png](./images/simulink/fixed_point.png)
 
 5. Double-click `Algorithm 2` in the Simulink GUI. In the prompt window, specify `f1` and `f2` and type `1` to generate the text files for the HLS implementation.
@@ -43,13 +51,17 @@ Newer versions of the software may be compatible, but the platform has been test
 ![components.png](./images/simulink/components.png)
 
 2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
-   
+
+![components.png](./images/simulink/components.png)
+
+2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
+
 ![solver.png](./images/simulink/solver.png)
 
 ![powergui.png](./images/simulink/powergui.png)
 
 3. For the error estimation in `Algorithm 1` and the simulation error in `Algorithm 2` to work correctly, the `.slx` file must be named either `Sphase.slx` for single-phase networks or `Tphase.slx` for three-phase networks. Additionally, the `Multimeter` must have exactly one selected voltage measurement and one selected current measurement each time. The selected voltage and current measurements do not necessarily need to be from the same load or branch. For three-phase networks, 'one measurement' refers to a three-phase measurement.
-   
+
 ![single_phase.png](./images/simulink/single_phase.png)
 
 ![three_phase.png](./images/simulink/three_phase.png)
@@ -90,7 +102,11 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 ![solution.png](./images/hls/solution.png)
 
 4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
-   
+
+![solution.png](./images/hls/solution.png)
+
+4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
+
 ![synthesis.png](./images/hls/synthesis.png)
 
 5. Navigate to **Solution** -> **Solution Settings** -> **General** -> **config_interface** and set the following :
@@ -101,7 +117,11 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 ![config_interface.png](./images/hls/config_interface.png)
 
 6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings.
-   
+
+![config_interface.png](./images/hls/config_interface.png)
+
+6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
+
 ![export_rtl.png](./images/hls/export_rtl.png)
 
 
@@ -131,34 +151,46 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 #### Step 5: Vivado
 
 1. Open Vivado and create a new project. In the **Project Type** section, leave the settings at default. In the **Default Part** section, choose the target FPGA board.
+
 ![project.png](./images/vivado/project.png)
 
 2. Once the project is open, navigate to **Tools** -> **Settings** -> **Project Settings** -> **IP** -> **Repository** and add the HLS-generated IP.
+
 ![add_ip.png](./images/vivado/add_ip.png)
 
 3. Navigate to **IP INTEGRATOR** and click `Create Block Design`.
+
 ![ip_integrator.png](./images/vivado/ip_integrator.png)
 
 4. In the **Diagram** section, add the `ZYNQ Ultrascale+ MPSoC` block. Click `Run Block Automation` and apply the board preset. Then, double-click the `ZYNQ Ultrascale+ MPSoC` block and navigate to **PS-PL Configuration** -> **PS-PL Interfaces**. In the **Master Interface** section, select `AXI HPM0 FPD`. In the **Slave Interface** section, select `AXI HP0 FPD`, `AXI HP1 FPD`, and `AXI HP2 FPD`. If the network has both voltage and current sources, select additionally `AXI HP3 FPD`.
+
 ![automation.png](./images/vivado/automation.png)
+
 ![configuration.png](./images/vivado/configuration.png)
 
 5. In the **Diagram** section, add these IP blocks: `Processor System Reset`, `AXI Interconnect`, `AXI SmartConnect`, and `Power_system_simulator`. Set the appropriate masters and slaves, and connect all blocks accordingly.
 ![block_design.png](./images/vivado/block_design.png)
 
 6. Navigate to the **Address Editor** section and click `Assign All`. Then, navigate to the **Diagram** section and click `Validate Design`.
+
 ![assign.png](./images/vivado/assign.png)
+
 ![validate.png](./images/vivado/validate.png)
 
 7. Navigate to **Sources** -> **Design Sources**. Under **Design Sources**, right-click and select `Generate Output Products`. In the **Synthesis Options** section, select `Global` and click `Generate`. Right-click again and select `Create HDL Wrapper`. Choose `Let Vivado manage wrapper and auto-update`.
+
 ![design_sources.png](./images/vivado/design_sources.png)
+
 ![output_products.png](./images/vivado/output_products.png)
+
 ![hdl_wrapper.png](./images/vivado/hdl_wrapper.png)
 
 8. Navigate to **PROGRAM AND DEBUG** and click `Generate Bitstream`. Let Vivado handle the intermediate steps.
+
 ![bitstream.png](./images/vivado/bitstream.png)
 
 9. Once finished, navigate to **File** -> **Export** -> **Export Hardware**. In the **Output** section, choose `Include Bitstream` and export the `.xsa` file.
+
 ![export.png](./images/vivado/export.png)
 
 
@@ -169,24 +201,33 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 2. Copy the `ps_sim_host.h` and `input_sources.h` files into the directory.
 
 3. Open Vitis and create a new application project. In the **Platform** section select `Choose a new platform from hardware (XSA)` and browse to the Vivado-generated `.xsa` file. In the following sections, leave settings at default. In the **Templates** section, select `Empty Application`.
+
 ![platform.png](./images/vitis/platform.png)
+
 ![details.png](./images/vitis/details.png)
+
 ![domain.png](./images/vitis/domain.png)
+
 ![templates.png](./images/vitis/templates.png)
 
 4. Navigate to the **Explorer**, and click on the `platform.spr` file (in the platform section of the project). Then, navigate to **standalone_psu_cortexa53_0** -> **Board Support Package** and select `Modify BSP Settings`. In the **Supported Libraries** section check the `xilffs` library.
+
 ![bsp_settings.png](./images/vitis/bsp_settings.png)
+
 ![xilffs.png](./images/vitis/xilffs.png)
 
 5. Navigate to the **Explorer**, and right-click on the `src` directory (in the application section of the project). Select `Import Sources` and add all files included in the `ps_sim_host` directory (including `lscript.ld`). 
+
 ![import_sources.png](./images/vitis/import_sources.png)
 
 6. Navigate to the **Explorer**, right-click on the system, and click on `Build Project`.
+
 ![build.png](./images/vitis/build.png)
 
 7. Copy the `HLS_V` and `HLS_I` directories into the SD card.
 
 8. Insert the SD card into the SD card slot on the target board and make the appropriate connections for the JTAG debugger and serial monitor. Then, right-click on the system, select **Debug As**, and then click on `Launch Hardware`. 
+
 ![debug.png](./images/vitis/debug.png)
 
 9. Once the execution is over, retrieve the `FPGA_V` and `FPFA_I` directories containing the output text files from the SD card.
