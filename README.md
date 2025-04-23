@@ -58,7 +58,7 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 * **m_axi_max_bitwidth** = `128`
 * **m_axi_max_widen_bitwidth** = `128`
 * **m_axi_alignment_byte_size** = `16`
-\n![config_interface.png](./images/hls/config_interface.png)
+<br>![config_interface.png](./images/hls/config_interface.png)
 6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
 ![export_rtl.png](./images/hls/export_rtl.png)
 
