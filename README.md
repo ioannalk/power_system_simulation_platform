@@ -20,5 +20,19 @@ Newer versions of the software may be compatible, but the platform has been test
 4. (Optional) Alternatively, run the `Fixed-Point Converter` app manually if a deeper look into the fixed-point analysis is desired. Select `fun1Ibr.m`, `fun1Ihistory.m`, `fun1Ihs.m`, `fun2Ibr.m`, `fun2Ihistory.m`, `fun2Ihs.m`, and `Vnodal.m` as entry-point functions. If the network does not include transformers, omit `fun1Ibr.m`, `fun1Ihs.m`, and `fun2Ihistory.m`. Add `empts_app.m` as the script and click `Autodefine Input Types`. In the **Settings**, select `Propose fraction lengths for specified word length` and set the default word length to 32. Set `Signed` in the **Signedness** option and analyze.
 ![fixed_point.png](./images/simulink/fixed_point.png)
 5. Double-click `Algorithm 2` in the Simulink GUI. In the prompt window, specify `f1` and `f2` and type `1` to generate the text files for the HLS implementation.
-![algorithm_2.png](./images/simulink/algorithm_2.png) 
+![algorithm_2.png](./images/simulink/algorithm_2.png)
+
+#### Notes
+1. Custom power networks can consist of passive elements (any combination of resistors, inductors, and capacitors), linear transformers, and voltage and current sources. The compatible components are from the **Simscape Specialized Technology** library.
+![components.png](./images/simulink/components.png)
+2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
+![solver.png](./images/simulink/solver.png)
+![powergui.png](./images/simulink/powergui.png)
+3. For the error estimation in `Algorithm 1` and the simulation error in `Algorithm 2` to work correctly, the `.slx` file must be named either `Sphase.slx` for single-phase networks or `Tphase.slx` for three-phase networks. Additionally, the `Multimeter` must have exactly one selected voltage measurement and one selected current measurement each time. The selected voltage and current measurements do not necessarily need to be from the same load or branch. For three-phase networks, 'one measurement' refers to a three-phase measurement.
+![single_phase.png](./images/simulink/single_phase.png)
+![three_phase.png](./images/simulink/three_phase.png)
+4. In some cases, running `Algorithm 1` or `Algorithm 2` multiple times may result in different nodes assignment. To preserve the assignment used when exporting the text files, `Algorithm 1` stores it in the `Outputs_Info.m` file. Since this file is later used to compute the simulation error between Simulink and HLS or FPGA results, it is recommended to save it separately to avoid accidentally overriding it in subsequent runs.
+5. Six Simulink models are included as test cases: three simple single-phase models demonstrating the input-based architectures, and three three-phase IEEE models, each corresponding to the size-based architectures. The chosen IEEE models did not require modifications to the models themselves.
+6. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
+
 
