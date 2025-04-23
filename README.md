@@ -28,14 +28,6 @@ Newer versions of the software may be compatible, but the platform has been test
 ![algorithm_1.png](./images/simulink/algorithm_1.png)
 
 4. (Optional) Alternatively, run the `Fixed-Point Converter` app manually if a deeper look into the fixed-point analysis is desired. Select `fun1Ibr.m`, `fun1Ihistory.m`, `fun1Ihs.m`, `fun2Ibr.m`, `fun2Ihistory.m`, `fun2Ihs.m`, and `Vnodal.m` as entry-point functions. If the network does not include transformers, omit `fun1Ibr.m`, `fun1Ihs.m`, and `fun2Ihistory.m`. Add `empts_app.m` as the script and click `Autodefine Input Types`. In the **Settings**, select `Propose fraction lengths for specified word length` and set the default word length to 32. Set `Signed` in the **Signedness** option and analyze.
-   
-![simulation.png](./images/simulink/simulation.png)
-
-3. Double-click `Algorithm 1` in the Simulink GUI. `Algorithm 1` performs simulation, network analysis, and decides the fraction lengths `f1` and `f2` for integer data representation. The fraction lengths are stored in the workspace and represent the maximum limits of each fraction length. Type `y` in the prompt window for error estimation between Simulink and the NIS method. Otherwise, press `n`.
-
-![algorithm_1.png](./images/simulink/algorithm_1.png)
-
-4. (Optional) Alternatively, run the `Fixed-Point Converter` app manually if a deeper look into the fixed-point analysis is desired. Select `fun1Ibr.m`, `fun1Ihistory.m`, `fun1Ihs.m`, `fun2Ibr.m`, `fun2Ihistory.m`, `fun2Ihs.m`, and `Vnodal.m` as entry-point functions. If the network does not include transformers, omit `fun1Ibr.m`, `fun1Ihs.m`, and `fun2Ihistory.m`. Add `empts_app.m` as the script and click `Autodefine Input Types`. In the **Settings**, select `Propose fraction lengths for specified word length` and set the default word length to 32. Set `Signed` in the **Signedness** option and analyze.
 
 ![fixed_point.png](./images/simulink/fixed_point.png)
 
@@ -48,10 +40,6 @@ Newer versions of the software may be compatible, but the platform has been test
 
 1. Custom power networks can consist of passive elements (any combination of resistors, inductors, and capacitors), linear transformers, and voltage and current sources. The compatible components are from the **Simscape Specialized Technology** library.
    
-![components.png](./images/simulink/components.png)
-
-2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
-
 ![components.png](./images/simulink/components.png)
 
 2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
@@ -70,7 +58,7 @@ Newer versions of the software may be compatible, but the platform has been test
    
 5. Six Simulink models are included as test cases: three simple single-phase models demonstrating the input-based architectures, and three three-phase IEEE models, each corresponding to the size-based architectures. The chosen IEEE models did not require modifications to the models themselves.
   
-9. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
+6. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
 
 
 #### Step 2: C++ Compiler
@@ -103,10 +91,6 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 
 4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
 
-![solution.png](./images/hls/solution.png)
-
-4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
-
 ![synthesis.png](./images/hls/synthesis.png)
 
 5. Navigate to **Solution** -> **Solution Settings** -> **General** -> **config_interface** and set the following :
@@ -114,10 +98,6 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
    * **m_axi_max_widen_bitwidth** = `128`
    * **m_axi_alignment_byte_size** = `16`
   
-![config_interface.png](./images/hls/config_interface.png)
-
-6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings.
-
 ![config_interface.png](./images/hls/config_interface.png)
 
 6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
@@ -169,6 +149,7 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 ![configuration.png](./images/vivado/configuration.png)
 
 5. In the **Diagram** section, add these IP blocks: `Processor System Reset`, `AXI Interconnect`, `AXI SmartConnect`, and `Power_system_simulator`. Set the appropriate masters and slaves, and connect all blocks accordingly.
+
 ![block_design.png](./images/vivado/block_design.png)
 
 6. Navigate to the **Address Editor** section and click `Assign All`. Then, navigate to the **Diagram** section and click `Validate Design`.
