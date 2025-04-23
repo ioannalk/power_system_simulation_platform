@@ -11,7 +11,6 @@ Newer versions of the software may be compatible, but the platform has been test
 
 ### Instructions - Target: `Zynq UltraScale+ ZCU104 Evaluation Board`
 
-
 #### Step 1: MATLAB/Simulink
 1. Open the `power_system` directory.
 2. Copy one of the `.slx` files into the `power_system` directory, open it, and click `Run` in the Simulink GUI to run the simulation.
@@ -36,7 +35,6 @@ Newer versions of the software may be compatible, but the platform has been test
 5. Six Simulink models are included as test cases: three simple single-phase models demonstrating the input-based architectures, and three three-phase IEEE models, each corresponding to the size-based architectures. The chosen IEEE models did not require modifications to the models themselves.
 6. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
 
-
 #### Step 2: C++ Compiler
 1. Open the `script` directory.
 2. Copy all the MATLAB-generated text files into the directory.
@@ -49,4 +47,27 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 * `limit_partial_unroll`
 * `unroll_factor`
 
+#### Step 3: Vitis HLS
+1. Open the `power_system_simulator` directory.
+2. Copy the `constants.h`, `initial_state.h`, and `input_sources.h` files into the directory.
+3. Open Vitis HLS and create a new project. In the **Design Files** section, add all `.cpp` files included in the `power_system_simulator` directory, except for the `power_system_simulator_test.cpp`. In the **Testbench Files** section, add the `power_system_simulator_test.cpp` file. In the **Solution Configuration** section, select the target FPGA board in the **part selection** and `Vivado IP Flow Target` in the **Flow Target**.
+![solution.png](./images/hls/solution.png)
+4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
+![synthesis.png](./images/hls/synthesis.png)
+5. Navigate to **Solution** -> **Solution Settings** -> **General** -> **config_interface** and set the following:
+* **m_axi_max_bitwidth** = `128`
+* **m_axi_max_widen_bitwidth** = `128`
+* **m_axi_alignment_byte_size** = `16`
+![config_interface.png](./images/hls/config_interface.png)
+6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
+![export_rtl.png](./images/hls/export_rtl.png)
+
+#### Step 3: Notes 
+1. If memory requirements are different, the general settings for **config_interface** in Vitis HLS are as follows:
+* **m_axi_max_bitwidth** = `buswidth`
+* **m_axi_max_widen_bitwidth** = `buswidth`
+* **m_axi_alignment_byte_size** = `buswidth/8`
+2. Regarding the HLS implementation, in the modules `history_currents`, `branch_currents`, and `nodal_voltages`, there is an option to use the `#pragma HLS allocation` directive. Its purpose is to limit DSP utilization. While it works for relatively small reductions, larger reductions often lead to congestion. To use these directives, uncomment and set the desired number.
+3. The testbench in Vitis HLS stores the C-Simulation and Co-Simulation results by default in the project directory: **project directory** -> **solution** -> **csim** -> **build**. Similarly, when exporting the RTL as an IP, the default directory is: **project directory** -> **solution** -> **impl** -> **ip**.
+4. When exporting the RTL as an IP, `Vivado Synthesis` or `Vivado synthesis, place and route` must not be checked if the IP is intended for subsequent use in Vivado. However, `Vivado Synthesis` or `Vivado synthesis, place and route` can be used to obtain real results about resource utilization of the IP as a standalone module.
 
