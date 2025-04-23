@@ -178,3 +178,30 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 
 9. Once the execution is over, retrieve the `FPGA_V` and `FPFA_I` directories containing the output text files from the SD card.
 
+
+#### Step 7: MATLAB/Simulink
+
+1. Copy the `FPGA_V` and `FPFA_I` directories into the `power_system` directory.
+
+2. Open the `.slx` file and click `Run` in the Simulink GUI to run the simulation.
+
+3. Double-click `Algorithm 2` in the Simulink GUI. In the prompt window, specify `f1` and `f2` and type '3' to compare the Simulink results with the final results.
+
+
+### References
+
+1. Original MATLAB/Simulink Framework:
+E. Mylonas, "Auto Power System Simulator," GitHub, 2021, [Online]. 
+Available: https://github.com/lefmylonas/auto_power_system_simulator.
+
+2. Original IEEE 5 Model:
+R. Tan,  IEEE 5-Bus System Model,  MATLAB Central File Exchange, MathWorks, 2018, [Online]. 
+Available: https://www.mathworks.com/matlabcentral/fileexchange/66555-ieee-5-bus-system-model.
+
+3. Original IEEE 14 Model:
+B. Y.K.,  IEEE 14 Bus System Simulink Model,  MATLAB Central File Exchange, MathWorks, 2016, [Online]. 
+Available: https://www.mathworks.com/matlabcentral/fileexchange/46067-ieee-14-bus-system-simulink-model.
+
+4. Original IEEE 69 Model:
+A. Lal,  IEEE 69 Bus System,  MATLAB Central File Exchange, MathWorks, 2021, [Online]. 
+Available: https://www.mathworks.com/matlabcentral/fileexchange/88111-ieee-69-bus-system.
