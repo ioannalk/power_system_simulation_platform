@@ -11,6 +11,7 @@ Newer versions of the software may be compatible, but the platform has been test
 
 ### Instructions - Target: `Zynq UltraScale+ ZCU104 Evaluation Board`
 
+
 #### Step 1: MATLAB/Simulink
 1. Open the `power_system` directory.
 2. Copy one of the `.slx` files into the `power_system` directory, open it, and click `Run` in the Simulink GUI to run the simulation.
@@ -34,6 +35,7 @@ Newer versions of the software may be compatible, but the platform has been test
 4. In some cases, running `Algorithm 1` or `Algorithm 2` multiple times may result in different nodes assignment. To preserve the assignment used when exporting the text files, `Algorithm 1` stores it in the `Outputs_Info.m` file. Since this file is later used to compute the simulation error between Simulink and HLS or FPGA results, it is recommended to save it separately to avoid accidentally overriding it in subsequent runs.
 5. Six Simulink models are included as test cases: three simple single-phase models demonstrating the input-based architectures, and three three-phase IEEE models, each corresponding to the size-based architectures. The chosen IEEE models did not require modifications to the models themselves.
 6. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
+
 
 #### Step 2: C++ Compiler
 1. Open the `script` directory.
