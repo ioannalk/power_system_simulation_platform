@@ -22,7 +22,7 @@ Newer versions of the software may be compatible, but the platform has been test
 5. Double-click `Algorithm 2` in the Simulink GUI. In the prompt window, specify `f1` and `f2` and type `1` to generate the text files for the HLS implementation.
 ![algorithm_2.png](./images/simulink/algorithm_2.png)
 
-#### Notes
+#### Step 1: Notes
 1. Custom power networks can consist of passive elements (any combination of resistors, inductors, and capacitors), linear transformers, and voltage and current sources. The compatible components are from the **Simscape Specialized Technology** library.
 ![components.png](./images/simulink/components.png)
 2. In the Simulink GUI, go to **Simulation** -> **Model Configuration Parameters** -> **Solver** -> Solver Options**. The **Solver** must be set to `discrete` and the **Type** to `Fixed-step` for correct error estimation. Similarly, the **Simulation Type** in the `powergui` block must be set to `Discrete`.
@@ -40,11 +40,11 @@ Newer versions of the software may be compatible, but the platform has been test
 2. Copy all the MATLAB-generated text files into the directory.
 3. Compile and run the `generate_headers.cpp` script. The script generates four header files: `constants.h`, `initial_state.h`, `input_sources.h`, and `ps_sim_host.h`.
 
-# Note
+#### Step 2: Note
 The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU104 Evaluation Board` and the C/C++ script is designed to work without modifications unless targeting a board with significantly different requirements or if maximum performance is not the goal. The script also provides a brief explanation of the available architectures and the criteria for choosing among them. In this case, the user may modify the following parts inside the script:
-   * `buswidth`
-   * `limit_full_unroll`
-   * `limit_partial_unroll`
-   * `unroll_factor`
+* `buswidth`
+* `limit_full_unroll`
+* `limit_partial_unroll`
+* `unroll_factor`
 
 
