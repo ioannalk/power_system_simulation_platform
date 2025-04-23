@@ -13,7 +13,7 @@ Newer versions of the software may be compatible, but the platform has been test
 
 #### Step 1: MATLAB/Simulink
 1. Open the `power_system` directory.
-2. Copy one of the `.slx` files in the `power_system` directory, open it, and click `Run` in the Simulink GUI to run the simulation.
+2. Copy one of the `.slx` files into the `power_system` directory, open it, and click `Run` in the Simulink GUI to run the simulation.
 ![simulation.png](./images/simulink/simulation.png)
 3. Double-click `Algorithm 1` in the Simulink GUI. `Algorithm 1` performs simulation, network analysis, and decides the fraction lengths `f1` and `f2` for integer data representation. The fraction lengths are stored in the workspace and represent the maximum limits of each fraction length. Type `y` in the prompt window for error estimation between Simulink and the NIS method. Otherwise, press `n`.
 ![algorithm_1.png](./images/simulink/algorithm_1.png)
@@ -34,5 +34,17 @@ Newer versions of the software may be compatible, but the platform has been test
 4. In some cases, running `Algorithm 1` or `Algorithm 2` multiple times may result in different nodes assignment. To preserve the assignment used when exporting the text files, `Algorithm 1` stores it in the `Outputs_Info.m` file. Since this file is later used to compute the simulation error between Simulink and HLS or FPGA results, it is recommended to save it separately to avoid accidentally overriding it in subsequent runs.
 5. Six Simulink models are included as test cases: three simple single-phase models demonstrating the input-based architectures, and three three-phase IEEE models, each corresponding to the size-based architectures. The chosen IEEE models did not require modifications to the models themselves.
 6. The MATLAB/Simulink framework is based on an existing work. Modifications were made to adapt it to the specific requirements of this implementation.
+
+#### Step 2: C++ Compiler
+1. Open the `script` directory.
+2. Copy all the MATLAB-generated text files into the directory.
+3. Compile and run the `generate_headers.cpp` script. The script generates four header files: `constants.h`, `initial_state.h`, `input_sources.h`, and `ps_sim_host.h`.
+
+# Note
+The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU104 Evaluation Board` and the C/C++ script is designed to work without modifications unless targeting a board with significantly different requirements or if maximum performance is not the goal. The script also provides a brief explanation of the available architectures and the criteria for choosing among them. In this case, the user may modify the following parts inside the script:
+   * `buswidth`
+   * `limit_full_unroll`
+   * `limit_partial_unroll`
+   * `unroll_factor`
 
 
