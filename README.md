@@ -79,18 +79,15 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 #### Step 5: Vivado
 
 1. Open Vivado and create a new project. In the **Project Type** section, leave the settings at default. In the **Default Part** section, choose the target FPGA board.
-
 ![project.png](./images/vivado/project.png)
 
 3. Once the project is open, navigate to **Tools** -> **Settings** -> **Project Settings** -> **IP** -> **Repository** and add the HLS-generated IP.
-
 ![add_ip.png](./images/vivado/add_ip.png)
 
 5. Navigate to **IP INTEGRATOR** and click `Create Block Design`.
 ![ip_integrator.png](./images/vivado/ip_integrator.png)
 
 7. In the **Diagram** section, add the `ZYNQ Ultrascale+ MPSoC` block. Click `Run Block Automation` and apply the board preset. Then, double-click the `ZYNQ Ultrascale+ MPSoC` block and navigate to **PS-PL Configuration** -> **PS-PL Interfaces**. In the **Master Interface** section, select `AXI HPM0 FPD`. In the **Slave Interface** section, select `AXI HP0 FPD`, `AXI HP1 FPD`, and `AXI HP2 FPD`. If the network has both voltage and current sources, select additionally `AXI HP3 FPD`.
-   
 ![automation.png](./images/vivado/automation.png)
 ![configuration.png](./images/vivado/configuration.png)
 
