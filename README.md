@@ -55,10 +55,10 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
 ![synthesis.png](./images/hls/synthesis.png)
 5. Navigate to **Solution** -> **Solution Settings** -> **General** -> **config_interface** and set the following:
-* **m_axi_max_bitwidth** = `128`
-* **m_axi_max_widen_bitwidth** = `128`
-* **m_axi_alignment_byte_size** = `16`
-<br>![config_interface.png](./images/hls/config_interface.png)
+   * **m_axi_max_bitwidth** = `128`
+   * **m_axi_max_widen_bitwidth** = `128`
+   * **m_axi_alignment_byte_size** = `16`
+   <br>![config_interface.png](./images/hls/config_interface.png)
 6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
 ![export_rtl.png](./images/hls/export_rtl.png)
 
