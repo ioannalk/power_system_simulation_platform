@@ -81,28 +81,32 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 1. Open Vivado and create a new project. In the **Project Type** section, leave the settings at default. In the **Default Part** section, choose the target FPGA board.
 ![project.png](./images/vivado/project.png)
 
-3. Once the project is open, navigate to **Tools** -> **Settings** -> **Project Settings** -> **IP** -> **Repository** and add the HLS-generated IP.
+2. Once the project is open, navigate to **Tools** -> **Settings** -> **Project Settings** -> **IP** -> **Repository** and add the HLS-generated IP.
 ![add_ip.png](./images/vivado/add_ip.png)
 
-5. Navigate to **IP INTEGRATOR** and click `Create Block Design`.
+3. Navigate to **IP INTEGRATOR** and click `Create Block Design`.
 ![ip_integrator.png](./images/vivado/ip_integrator.png)
 
-7. In the **Diagram** section, add the `ZYNQ Ultrascale+ MPSoC` block. Click `Run Block Automation` and apply the board preset. Then, double-click the `ZYNQ Ultrascale+ MPSoC` block and navigate to **PS-PL Configuration** -> **PS-PL Interfaces**. In the **Master Interface** section, select `AXI HPM0 FPD`. In the **Slave Interface** section, select `AXI HP0 FPD`, `AXI HP1 FPD`, and `AXI HP2 FPD`. If the network has both voltage and current sources, select additionally `AXI HP3 FPD`.
+4. In the **Diagram** section, add the `ZYNQ Ultrascale+ MPSoC` block. Click `Run Block Automation` and apply the board preset. Then, double-click the `ZYNQ Ultrascale+ MPSoC` block and navigate to **PS-PL Configuration** -> **PS-PL Interfaces**. In the **Master Interface** section, select `AXI HPM0 FPD`. In the **Slave Interface** section, select `AXI HP0 FPD`, `AXI HP1 FPD`, and `AXI HP2 FPD`. If the network has both voltage and current sources, select additionally `AXI HP3 FPD`.
 ![automation.png](./images/vivado/automation.png)
 ![configuration.png](./images/vivado/configuration.png)
 
-9. In the **Diagram** section, add these IP blocks: `Processor System Reset`, `AXI Interconnect`, `AXI SmartConnect`, and `Power_system_simulator`. Set the appropriate masters and slaves, and connect all blocks accordingly.
+5. In the **Diagram** section, add these IP blocks: `Processor System Reset`, `AXI Interconnect`, `AXI SmartConnect`, and `Power_system_simulator`. Set the appropriate masters and slaves, and connect all blocks accordingly.
 ![block_design.png](./images/vivado/block_design.png)
-10. Navigate to the **Address Editor** section and click `Assign All`. Then, navigate to the **Diagram** section and click `Validate Design`.
+
+6. Navigate to the **Address Editor** section and click `Assign All`. Then, navigate to the **Diagram** section and click `Validate Design`.
 ![assign.png](./images/vivado/assign.png)
 ![validate.png](./images/vivado/validate.png)
-11. Navigate to **Sources** -> **Design Sources**. Under **Design Sources**, right-click and select `Generate Output Products`. In the **Synthesis Options** section, select `Global` and click `Generate`. Right-click again and select `Create HDL Wrapper`. Choose `Let Vivado manage wrapper and auto-update`.
+
+7. Navigate to **Sources** -> **Design Sources**. Under **Design Sources**, right-click and select `Generate Output Products`. In the **Synthesis Options** section, select `Global` and click `Generate`. Right-click again and select `Create HDL Wrapper`. Choose `Let Vivado manage wrapper and auto-update`.
 ![design_sources.png](./images/vivado/design_sources.png)
 ![output_products.png](./images/vivado/output_products.png)
 ![hdl_wrapper.png](./images/vivado/hdl_wrapper.png)
-12. Navigate to **PROGRAM AND DEBUG** and click `Generate Bitstream`. Let Vivado handle the intermediate steps.
+
+8. Navigate to **PROGRAM AND DEBUG** and click `Generate Bitstream`. Let Vivado handle the intermediate steps.
 ![bitstream.png](./images/vivado/bitstream.png)
-13. Once finished, navigate to **File** -> **Export** -> **Export Hardware**. In the **Output** section, choose `Include Bitstream` and export the `.xsa` file.
+
+9. Once finished, navigate to **File** -> **Export** -> **Export Hardware**. In the **Output** section, choose `Include Bitstream` and export the `.xsa` file.
 ![export.png](./images/vivado/export.png)
 
 
