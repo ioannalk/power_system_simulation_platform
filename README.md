@@ -42,10 +42,10 @@ Newer versions of the software may be compatible, but the platform has been test
 
 #### Step 2: Note
 The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU104 Evaluation Board` and the C/C++ script is designed to work without modifications unless targeting a board with significantly different requirements or if maximum performance is not the goal. The script also provides a brief explanation of the available architectures and the criteria for choosing among them. In this case, the user may modify the following parts inside the script:
-* `buswidth`
-* `limit_full_unroll`
-* `limit_partial_unroll`
-* `unroll_factor`
+   * `buswidth`
+   * `limit_full_unroll`
+   * `limit_partial_unroll`
+   * `unroll_factor`
 
 #### Step 3: Vitis HLS
 1. Open the `power_system_simulator` directory.
@@ -55,18 +55,18 @@ The target FPGA used for implementation and testing is the `Zynq UltraScale+ ZCU
 4. Once the project is open, navigate to **Project** -> **Project Settings** -> **Synthesis** -> **Top Function** and select `power_system_simulator.cpp`.
 ![synthesis.png](./images/hls/synthesis.png)
 5. Navigate to **Solution** -> **Solution Settings** -> **General** -> **config_interface** and set the following:
-  * **m_axi_max_bitwidth** = `128`
-  * **m_axi_max_widen_bitwidth** = `128`
-  * **m_axi_alignment_byte_size** = `16`
+   * **m_axi_max_bitwidth** = `128`
+   * **m_axi_max_widen_bitwidth** = `128`
+   * **m_axi_alignment_byte_size** = `16`
 <br>![config_interface.png](./images/hls/config_interface.png)
 6. Run the steps: **C Simulation**, **C Synthesis**, **Co-Simulation**, and **Export RTL**, all with the default settings. 
 ![export_rtl.png](./images/hls/export_rtl.png)
 
 #### Step 3: Notes 
 1. If memory requirements are different, the general settings for **config_interface** in Vitis HLS are as follows:
-* **m_axi_max_bitwidth** = `buswidth`
-* **m_axi_max_widen_bitwidth** = `buswidth`
-* **m_axi_alignment_byte_size** = `buswidth/8`
+   * **m_axi_max_bitwidth** = `buswidth`
+   * **m_axi_max_widen_bitwidth** = `buswidth`
+   * **m_axi_alignment_byte_size** = `buswidth/8`
 2. Regarding the HLS implementation, in the modules `history_currents`, `branch_currents`, and `nodal_voltages`, there is an option to use the `#pragma HLS allocation` directive. Its purpose is to limit DSP utilization. While it works for relatively small reductions, larger reductions often lead to congestion. To use these directives, uncomment and set the desired number.
 3. The testbench in Vitis HLS stores the C-Simulation and Co-Simulation results by default in the project directory: **project directory** -> **solution** -> **csim** -> **build**. Similarly, when exporting the RTL as an IP, the default directory is: **project directory** -> **solution** -> **impl** -> **ip**.
 4. When exporting the RTL as an IP, `Vivado Synthesis` or `Vivado synthesis, place and route` must not be checked if the IP is intended for subsequent use in Vivado. However, `Vivado Synthesis` or `Vivado synthesis, place and route` can be used to obtain real results about resource utilization of the IP as a standalone module.
